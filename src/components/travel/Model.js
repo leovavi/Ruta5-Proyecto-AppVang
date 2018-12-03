@@ -44,5 +44,19 @@ export type City = {
 
 export type Travel = {
     guides: Guide[],
-    cities: City[]
+    cities: Post[]
+};
+
+export type Author = {
+    id: number,
+    name: string
+};
+
+export type Post = {
+    id: number,
+    author: Author,
+    date: string,
+    title: string,
+    content: string,
+    picture: Picture
 };
