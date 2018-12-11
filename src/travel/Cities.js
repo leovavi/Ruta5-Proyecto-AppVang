@@ -7,8 +7,13 @@ import TravelAPI from "./api";
 import type {City} from "../components/travel/Model";
 import type {Post} from "../components/travel/Model";
 import type {NavigationProps} from "../components";
+import axios from "axios";
 
 export default class Cities extends React.Component<NavigationProps<>> {
+    
+    state = {
+        posts: []
+    }
 
     renderItem = (post: Post): React.Node => {
         const {navigation} = this.props;
@@ -26,7 +31,7 @@ export default class Cities extends React.Component<NavigationProps<>> {
     render(): React.Node {
         const {renderItem} = this;
         const {navigation} = this.props;
-        const data = TravelAPI.cities;
+        const data = TravelAPI.posts;
         const title = "Posts";
         return (
             <Feed {...{data, renderItem, title, navigation}} />

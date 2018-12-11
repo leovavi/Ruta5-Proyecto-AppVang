@@ -9,10 +9,12 @@ import Restaurants from "./Restaurants";
 import Hotels from "./Hotels";
 import Guides from "./Guides";
 import Guide from "./Guide";
+import About from "./About";
 
 const tabs = [
     { key: "Guides", label: "Guides", icon: "feed" },
-    { key: "Cities", label: "Cities", icon: "cities" }
+    { key: "Cities", label: "Cities", icon: "cities" },
+    { key: "About", label: "About", icon: "account" }
 ];
 
 const CitiesNavigator = createStackNavigator({
@@ -27,7 +29,12 @@ const GuidesNavigator = createStackNavigator({
     Guide: { screen: Guide }
 }, StackNavigatorOptions);
 
+const AboutNavigator = createStackNavigator({
+    About: { screen: About }
+}, StackNavigatorOptions);
+
 export const TravelNavigator = createBottomTabNavigator({
     Guides: { screen: GuidesNavigator },
-    Cities: { screen: CitiesNavigator }
+    Cities: { screen: CitiesNavigator },
+    About: { screen: AboutNavigator }
 }, TabNavigatorOptions(tabs));

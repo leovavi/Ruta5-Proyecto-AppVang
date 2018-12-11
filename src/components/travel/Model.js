@@ -11,6 +11,14 @@ export type Guide = {
     visits: Visit[]
 };
 
+export type About = {
+    id: string,
+    about: string,
+    city: string,
+    picture: Picture,
+    location: Location
+}
+
 export type Visit = {
     name: string,
     address: string,

@@ -4,6 +4,7 @@
     "private": true,
     "license": "https://wcandillon.github.io/react-native-elements/License.html",
     "devDependencies": {
+        "axios": "^0.18.0",
         "babel-eslint": "^8.2.1",
         "babel-preset-expo": "^5.0.0",
         "eslint": "^4.9.0",
@@ -16,6 +17,7 @@
         "flow-bin": "0.63.1",
         "flow-result-checker": "^0.3.0",
         "jest-expo": "^31.0.0",
+        "react-native-render-html": "^3.10.0",
         "react-native-scripts": "1.11.1",
         "react-test-renderer": "16.0.0-alpha.12"
     },
