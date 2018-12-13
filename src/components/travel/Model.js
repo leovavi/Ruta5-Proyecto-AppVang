@@ -13,10 +13,8 @@ export type Guide = {
 
 export type About = {
     id: string,
-    about: string,
-    city: string,
-    picture: Picture,
-    location: Location
+    info: string,
+    picture: Picture
 }
 
 export type Visit = {

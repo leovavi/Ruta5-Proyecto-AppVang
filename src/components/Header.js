@@ -34,7 +34,16 @@ export default class Header extends React.PureComponent<HeaderProps> {
                     colors={["rgba(0,0,0,0.8)", "transparent", "rgba(0,0,0,0.8)"]}
                 >
                     {children}
-                    { title && <Text type="title1" color="white" style={styles.text}>{title}</Text> }
+                    { title && 
+                        <Text 
+                            adjustsFontSizeToFit={true}
+                            numberOfLines={4}
+                            type="title1" 
+                            color="white" 
+                            style={styles.text}
+                        >
+                            {title}
+                        </Text> }
                 </LinearGradient>
             </View>
         );
@@ -51,6 +60,9 @@ const styles = StyleSheet.create({
         justifyContent: "space-between"
     },
     text: {
-        padding: StyleGuide.spacing.small
+        padding: StyleGuide.spacing.small,
+        fontSize: 20,
+        justifyContent: "center",
+        textAlign: "center"
     }
 });

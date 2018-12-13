@@ -39,7 +39,14 @@ export default class Card extends React.PureComponent<CardProps> {
                                     <Text type="headline" style={styles.subtitle}>{subtitle.toUpperCase()}</Text>
                                 )
                             }
-                            <Text type="title2" color="white">{title}</Text>
+                            <Text 
+                                adjustsFontSizeToFit={true}
+                                numberOfLines={4}
+                                type="title2" 
+                                color="white"
+                            >
+                                {title}
+                            </Text>
                         </LinearGradient>
                         {
                             description && (

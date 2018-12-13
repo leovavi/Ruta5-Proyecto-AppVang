@@ -20,16 +20,15 @@ function getPosts () {
         })
         .catch(err => {
             console.log(err);
+            return [];
         }) ;
 }
 
+const posts = getPosts();
+
 const api: Travel = {
     guides,
-    posts: [
-        post1,
-        post2,
-        post3
-    ]
+    posts: posts
 };
 
 export default api;

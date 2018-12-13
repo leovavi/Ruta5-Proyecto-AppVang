@@ -1,6 +1,6 @@
 // @flow
 import * as React from "react";
-import {FlatList, StyleSheet, View, Animated, Dimensions} from "react-native";
+import {FlatList, StyleSheet, View, Animated, Dimensions, ActivityIndicator} from "react-native";
 
 import NavigationBar from "./NavigationBar";
 import Text from "./Text";
@@ -20,7 +20,10 @@ type FeedProps<T> = ThemeProps & StyleProps & NavigationProps<*> & {
     back?: string,
     rightAction?: Action,
     numColumns?: number,
-    inverted?: boolean
+    inverted?: boolean,
+    onEndReached?: Promise<void>,
+    threshold?: number,
+    loading?: boolean
 };
 
 type FeedState = {
@@ -43,7 +46,7 @@ class Feed<T: Item> extends React.Component<FeedProps<T>, FeedState> {
 
     render(): React.Node {
         const {renderItem} = this;
-        const {data, title, navigation, theme, back, rightAction, header, numColumns, style, inverted} = this.props;
+        const {data, title, navigation, theme, back, rightAction, header, numColumns, style, inverted, onEndReached, threshold, loading} = this.props;
         const {scrollAnimation} = this.state;
         const translateY = scrollAnimation.interpolate({
             inputRange: [55, 56, 57],
@@ -81,6 +84,10 @@ class Feed<T: Item> extends React.Component<FeedProps<T>, FeedState> {
                 <NavigationBar
                     {...{ navigation, title, back, titleStyle, rightAction}}
                 />
+                {
+                    loading &&
+                    (<ActivityIndicator size="large"/>)
+                }
                 <AnimatedFlatList
                     contentContainerStyle={[styles.container, style]}
                     showsVerticalScrollIndicator={false}
@@ -94,6 +101,8 @@ class Feed<T: Item> extends React.Component<FeedProps<T>, FeedState> {
                             </Animated.View>
                         )
                     )}
+                    onEndReached = {onEndReached}
+                    onEndReachedThreshold = {threshold}
                     scrollEventThrottle={1}
                     columnWrapperStyle={(numColumns && numColumns > 0) ? styles.columnWrapperStyle : undefined}
                     {...{data, keyExtractor, renderItem, onScroll, numColumns, inverted}}
