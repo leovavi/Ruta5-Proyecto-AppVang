@@ -1,7 +1,8 @@
 // @flow
 import * as React from "react";
-import {StyleSheet, View, Dimensions, ScrollView } from "react-native";
+import {StyleSheet, View, Dimensions, ScrollView, Share } from "react-native";
 import HTMLView from 'react-native-htmlview';
+import { SocialIcon } from "react-native-elements";
 
 import {
     Container, Header, NavigationBar, Text, BaseCard, Button, Content, StyleGuide, notImplementedYet,
@@ -11,7 +12,16 @@ import {
 import type {Post} from "../components/travel/Model";
 
 export default class CityScreen extends React.PureComponent<NavigationProps<{ post: Post }>> {
-
+    onSocialSharePressed = () => {
+        const {navigation} = this.props;
+        const {post} = navigation.state.params;
+        Share.share({
+            message: post.URL,
+            title: post.title
+        },{
+            dialogTitle: "Compartir Noticia"
+        })
+    }
 
     render(): React.Node {
         const {navigation, onSaveBookmark} = this.props;
@@ -31,6 +41,16 @@ export default class CityScreen extends React.PureComponent<NavigationProps<{ po
                 <Content>
                     <BaseCard>
                         <ScrollView style={{ flex: 1 }}>
+                            <SocialIcon 
+                                type = "envelope"
+                                title = "Compartir"
+                                iconColor = "#3b5998"
+                                iconColor = "white"
+                                underlayColor = "#3b59bf"
+                                style = {{backgroundColor: "#3b5998"}}
+                                button
+                                onPress = {() => {this.onSocialSharePressed()}}
+                            />
                             <HTMLView value={post.content} />
                         </ScrollView>
                     </BaseCard>
