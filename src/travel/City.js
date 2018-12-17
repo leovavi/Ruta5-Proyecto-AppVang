@@ -36,7 +36,7 @@ export default class CityScreen extends React.PureComponent<NavigationProps<{ po
                     uri: post.featured_image,
                     preview: post.featured_image
                 }}>
-                    <NavigationBar type="transparent" back="Posts" {...{navigation, rightAction}} />
+                    <NavigationBar type="transparent" back="Noticias" {...{navigation, rightAction}} />
                 </Header>
                 <Content>
                     <BaseCard>
