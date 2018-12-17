@@ -9,6 +9,9 @@ import TravelAPI from "./api";
 import type {NavigationProps} from "../components";
 import type {Action} from "../components/Model";
 import type {Guide} from "../components/travel/Model";
+import type {Post} from "../components/travel/Model";
+
+import axios from "axios";
 
 type Chunk = {
     id: string,
@@ -17,61 +20,78 @@ type Chunk = {
 
 export default class Guides extends React.Component<NavigationProps<>> {
 
-    renderItem = (chunk: Chunk): React.Node => {
+    state = {
+        posts: [],
+        loading: true,
+        numPosts: 5,
+        offset: 0
+    }
+
+    onEndReached = () =>{
+        this.setState({
+            loading: true
+        });
+
+        this.getPosts();
+    }
+
+    getPosts = () => {
+        axios
+            .get(`https://public-api.wordpress.com/rest/v1.1/sites/rutacincohn.com/posts/?number=${this.state.numPosts}&offset=${this.state.offset}`)
+            .then(resp => {
+                let newPosts = this.state.posts;
+                newPosts = newPosts.concat(resp.data.posts);
+                this.setState({
+                    posts: newPosts,
+                    loading: false,
+                    offset: this.state.offset + this.state.numPosts
+                });
+            })
+            .catch(err => {
+                console.warn(err.message);
+            })
+    }
+
+    renderItem = (post: Post): React.Node => {
         const {navigation} = this.props;
         return (
-            <View style={styles.row}>
-                {
-                    chunk.guides.map(guide => (
-                        <Card
-                            key={guide.id}
-                            title={guide.city}
-                            subtitle={guide.country}
-                            description={`${guide.duration} days`}
-                            onPress={() => navigation.navigate("Guide", { guide })}
-                            picture={guide.picture}
-                            height={chunk.guides.length === 1 ? 300 : 175}
-                        />
-                    ))
-                }
-            </View>
+            //<View style={styles.row}>
+                <Card
+                    key={post.id}
+                    title={""}
+                    //subtitle={guide.country}
+                    //description={`${guide.duration} days`}
+                    picture={{
+                        uri: post.featured_image,
+                        preview: post.featured_image
+                    }}
+                    //height={chunk.guides.length === 1 ? 300 : 175}
+                    height={300}
+                />
+            //</View>
         );
     }
 
-    onPress = () => {
-        const {navigation} = this.props;
-        navigation.navigate("Welcome");
+    async componentDidMount() : Promise<void> {
+        this.setState({
+            loading: true,
+            offset: 0
+        });
+
+        this.getPosts();
     }
 
     render(): React.Node {
-        const {renderItem, onPress} = this;
+        const {renderItem, onEndReached} = this;
         const {navigation} = this.props;
-        const data = windowing(TravelAPI.guides).map(guides => (
-            { id: guides.map(guide => guide.id).join(""), guides }
-        ));
-        const title = "Guides";
-        const rightAction: Action = {
-            icon: "sign-out",
-            onPress
-        };
+        const {loading} = this.state;
+        const data = this.state.posts;
+        const title = "Galeria";
         return (
-            <Feed {...{data, renderItem, title, navigation, rightAction}} />
+            <Feed {...{data, renderItem, title, navigation, onEndReached, loading}} />
         );
     }
 }
-
-const windowing = (guides: Guide[]): Guide[][] => {
-    const windows = [[]];
-    guides.forEach(guide => {
-        if (windows[windows.length - 1].length === 2) {
-            windows.push([guide]);
-            windows.push([]);
-        } else {
-            windows[windows.length - 1].push(guide);
-        }
-    });
-    return windows;
-};
 
 const styles = StyleSheet.create({
     row: {

@@ -95,7 +95,7 @@ class Cities extends React.Component<NavigationProps<>> {
         const {navigation} = this.props;
         const {loading} = this.state;
         const data = this.state.posts;
-        const title = "Posts";
+        const title = "Noticias";
         const threshold = 0.75;
         return (
             <Feed {...{data, renderItem, title, navigation, onEndReached, threshold, loading}} style={styles.content} />
